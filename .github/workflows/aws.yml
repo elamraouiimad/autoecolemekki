@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مؤسسة تعليم السياقة المكي | Auto école Mekki</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        customBlue: '#1E68B8',
+                        customYellow: '#F4CE52',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+        @keyframes floatGentle {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(5deg); }
+        }
+        .gentle-float-1 { animation: floatGentle 5s ease-in-out infinite; }
+        .gentle-float-2 { animation: floatGentle 7s ease-in-out infinite 1s; }
+        .gentle-float-3 { animation: floatGentle 6s ease-in-out infinite 2s; }
+        .gentle-float-4 { animation: floatGentle 8s ease-in-out infinite 1.5s; }
+        
+        .fade-text {
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-out {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        input[type="text"], input[type="date"], input[type="tel"], select, textarea {
+            box-sizing: border-box;
+            width: 100%;
+        }
+        input[type="text"], input[type="date"], input[type="tel"], select {
+            height: 44px;
+        }
+        .slider-img {
+            pointer-events: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body id="pageBody" class="bg-slate-50 min-h-screen flex flex-col justify-between relative leading-relaxed">
+
+    <!-- Header / Navbar -->
+    <header class="bg-[#1E68B8] text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-3 py-2.5 flex justify-between items-center">
+            <!-- شعار المؤسسة بأبعاد ثابتة ومريحة -->
+            <div id="brandContainer" class="flex items-center gap-2 cursor-pointer shrink-0" onclick="scrollToTop()">
+                <div class="w-9 h-9 md:w-10 md:h-10 rounded-full overflow-hidden border border-[#F4CE52] shadow bg-white flex items-center justify-center p-0.5 shrink-0">
+                    <i class="fa-solid fa-car text-[#1E68B8] text-sm md:text-base"></i>
+                </div>
+                <div class="max-w-[140px] md:max-w-none">
+                    <h1 id="brandTitle" class="text-xs md:text-sm font-black tracking-wide leading-tight truncate">مؤسسة المكي</h1>
+                    <p id="brandSubtitle" class="text-[8px] md:text-[9px] text-[#F4CE52] font-bold leading-none truncate">تعليم السياقة والسلامة الطرقية</p>
+                </div>
+            </div>
+
+            <!-- الأزرار والتحكمات الثابتة في الجهة الأخرى -->
+            <div class="flex items-center gap-1.5 md:gap-2 shrink-0">
+                <button onclick="toggleAccordion('register')" id="navRegisterBtn" class="bg-[#F4CE52] hover:bg-yellow-400 text-slate-900 font-black px-2.5 py-1.5 rounded-full shadow transition text-[11px] md:text-xs shrink-0 cursor-pointer">
+                    سجل الآن
+                </button>
+
+                <!-- زر اختيار اللغة المصغر -->
+                <div class="relative">
+                    <button id="langMenuBtn" onclick="toggleLangMenu(event)" class="bg-blue-900/60 hover:bg-blue-900 px-2 py-1.5 rounded-lg border border-blue-400/30 transition flex items-center gap-1 text-xs shadow shrink-0 cursor-pointer">
+                        <span id="currentFlag" class="text-sm">🇲🇦</span>
+                        <i class="fa-solid fa-chevron-down text-[9px] text-[#F4CE52]"></i>
+                    </button>
+
+                    <div id="langDropdown" class="hidden absolute left-0 mt-2 w-28 bg-white rounded-xl shadow-2xl border border-slate-100 py-1.5 text-slate-800 z-50">
+                        <button onclick="changeLanguage('ar'); toggleLangMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition flex items-center gap-2 cursor-pointer">
+                            <span class="text-sm">🇲🇦</span> <span>العربية</span>
+                        </button>
+                        <button onclick="changeLanguage('fr'); toggleLangMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition flex items-center gap-2 cursor-pointer">
+                            <span class="text-sm">🇫🇷</span> <span>Français</span>
+                        </button>
+                        <button onclick="changeLanguage('en'); toggleLangMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition flex items-center gap-2 cursor-pointer">
+                            <span class="text-sm">🇬🇧</span> <span>English</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- زر الهمبرغر بار المصغر -->
+                <div class="relative">
+                    <button id="menuBtn" onclick="toggleMenu(event)" class="text-white bg-blue-900/60 hover:bg-blue-900 p-1.5 rounded-lg border border-blue-400/30 transition focus:outline-none flex items-center justify-center w-8 h-8 shrink-0 cursor-pointer">
+                        <i class="fa-solid fa-bars text-sm text-[#F4CE52]"></i>
+                    </button>
+
+                    <div id="dropdownMenu" class="hidden absolute mt-2 w-56 bg-white rounded-xl shadow-2xl border border-slate-100 py-1.5 text-slate-800 z-50">
+                        <div id="menuIndexTitle" class="px-3 py-1.5 border-b border-slate-100 text-[11px] font-bold text-[#1E68B8]">فهرس الموقع</div>
+                        <button onclick="scrollToTop(); toggleMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-house text-[10px] text-[#1E68B8] w-4 text-center"></i> <span data-i18n="menuHome">الرئيسية</span>
+                        </button>
+                        <button onclick="toggleAccordion('about'); toggleMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-circle-info text-[10px] text-[#1E68B8] w-4 text-center"></i> <span data-i18n="menuAbout">من نحن؟</span>
+                        </button>
+                        <button onclick="toggleAccordion('services'); toggleMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-book text-[10px] text-[#1E68B8] w-4 text-center"></i> <span data-i18n="menuServices">خدماتنا</span>
+                        </button>
+                        <button onclick="toggleAccordion('conditions'); toggleMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-id-card text-[10px] text-[#1E68B8] w-4 text-center"></i> <span data-i18n="menuConditions">شروط التسجيل</span>
+                        </button>
+                        <button onclick="toggleAccordion('offers'); toggleMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-gift text-[10px] text-[#1E68B8] w-4 text-center"></i> <span data-i18n="menuOffers">العروض المقترحة</span>
+                        </button>
+                        <button onclick="toggleAccordion('professors'); toggleMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-chalkboard-user text-[10px] text-[#1E68B8] w-4 text-center"></i> <span data-i18n="menuTrainers">المدربين</span>
+                        </button>
+                        <button onclick="toggleAccordion('gallery'); toggleMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-images text-[10px] text-[#1E68B8] w-4 text-center"></i> <span data-i18n="menuGallery">معرض الصور</span>
+                        </button>
+                        <button onclick="toggleAccordion('map-section'); toggleMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-location-dot text-[10px] text-[#1E68B8] w-4 text-center"></i> <span data-i18n="menuLocation">موقعنا وتقييماتنا</span>
+                        </button>
+                        <button onclick="toggleAccordion('register'); toggleMenu();" class="w-full text-start px-3 py-2 text-xs font-semibold hover:bg-blue-50 hover:text-[#1E68B8] transition border-t border-slate-100 text-amber-600 flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-user-plus text-[10px] w-4 text-center"></i> <span data-i18n="menuRegister">طلب التسجيل</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow py-6 px-4 max-w-7xl mx-auto w-full space-y-6">
+
+        <!-- القسم الرئيسي (Hero) -->
+        <div id="hero-block">
+            <section class="bg-[#1E68B8] text-white pt-4 pb-10 px-6 rounded-[40px] relative overflow-hidden shadow-2xl space-y-6">
+                <div class="absolute inset-0 pointer-events-none overflow-hidden opacity-15 text-white">
+                    <i class="fa-solid fa-car absolute top-8 right-12 text-3xl gentle-float-1"></i>
+                    <i class="fa-solid fa-id-card absolute top-14 right-1/4 text-4xl gentle-float-2"></i>
+                    <i class="fa-solid fa-road absolute top-8 left-16 text-4xl gentle-float-2"></i>
+                    <i class="fa-solid fa-traffic-light absolute top-16 left-1/4 text-3xl gentle-float-3"></i>
+                    <i class="fa-solid fa-steering-wheel absolute top-10 right-1/2 text-3xl gentle-float-4"></i>
+                </div>
+
+                <div class="max-w-4xl mx-auto text-center space-y-4 relative z-10">
+                    <span id="heroBadge" class="inline-block bg-[#F4CE52] text-slate-900 font-black text-xs px-5 py-2 rounded-full shadow">
+                        طريقك الآمن نحو نيل رخصة السياقة
+                    </span>
+                    
+                    <div class="flex flex-col items-center justify-center space-y-2">
+                        <h2 id="heroTitle" class="text-3xl md:text-5xl font-black text-white drop-shadow tracking-wide leading-tight">
+                            مؤسسة المكي
+                        </h2>
+                        <h3 id="heroSubtitle" class="text-lg md:text-2xl font-bold text-[#F4CE52] tracking-wide leading-normal">
+                            لتعليم السياقة والسلامة الطرقية
+                        </h3>
+                    </div>
+
+                    <!-- صندوق الجمل المتغيرة -->
+                    <div class="bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/25 shadow-lg max-w-md mx-auto min-h-[55px] flex items-center justify-center">
+                        <p id="dynamicTextView" class="fade-text text-xs md:text-sm font-semibold text-blue-50 leading-relaxed text-center">
+                            القيادة ليست مجرد تحكم في السيارة، بل هي وعي ومسؤولية على الطريق
+                        </p>
+                    </div>
+                </div>
+
+                <!-- صندوق الصور -->
+                <div class="max-w-[240px] md:max-w-[270px] mx-auto relative z-10 bg-white/10 backdrop-blur-md p-2.5 rounded-3xl border border-white/25 shadow-inner">
+                    <div class="relative aspect-square rounded-2xl overflow-hidden bg-slate-900/40 flex items-center justify-center">
+                        <div class="absolute inset-0 transition-opacity duration-700 ease-in-out slider-item opacity-100">
+                            <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1000&q=80" alt="سياقة آمنة" class="w-full h-full object-cover slider-img">
+                        </div>
+                        <div class="absolute inset-0 transition-opacity duration-700 ease-in-out slider-item opacity-0">
+                            <img src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1000&q=80" alt="قاعة الدرس" class="w-full h-full object-cover slider-img">
+                        </div>
+                        <div class="absolute inset-0 transition-opacity duration-700 ease-in-out slider-item opacity-0">
+                            <img src="https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1000&q=80" alt="سيارات التدريب" class="w-full h-full object-cover slider-img">
+                        </div>
+
+                        <button onclick="prevSlide()" class="absolute left-2.5 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/85 text-white w-8 h-8 rounded-full flex items-center justify-center transition shadow cursor-pointer z-20" aria-label="السابق">
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                        </button>
+                        <button onclick="nextSlide()" class="absolute right-2.5 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/85 text-white w-8 h-8 rounded-full flex items-center justify-center transition shadow cursor-pointer z-20" aria-label="التالي">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- الأقسام التفاعلية (أكورديون) -->
+        <div class="space-y-4 pt-2">
+
+            <!-- 1. من نحن؟ -->
+            <div class="bg-white rounded-3xl shadow-md border border-slate-200 overflow-hidden transition">
+                <button type="button" onclick="toggleAccordion('about')" class="w-full p-6 font-black text-xl text-[#1E68B8] flex justify-between items-center hover:bg-blue-50/50 transition cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-circle-info text-amber-500"></i>
+                        <span data-i18n="secAbout">من نحن؟</span>
+                    </div>
+                    <i id="icon-about" class="fa-solid fa-chevron-down text-sm text-slate-400 transition transform"></i>
+                </button>
+                <div id="content-about" class="hidden p-6 pt-0 border-t border-slate-100 bg-slate-50/50">
+                    <div class="max-w-3xl mx-auto pt-6 text-start">
+                        <div id="aboutTextContent" class="bg-white rounded-3xl shadow-sm p-8 border border-slate-200 space-y-4 text-slate-700 text-sm md:text-base leading-loose"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. خدماتنا -->
+            <div class="bg-white rounded-3xl shadow-md border border-slate-200 overflow-hidden transition">
+                <button type="button" onclick="toggleAccordion('services')" class="w-full p-6 font-black text-xl text-[#1E68B8] flex justify-between items-center hover:bg-blue-50/50 transition cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-book text-amber-500"></i>
+                        <span data-i18n="secServices">خدماتنا</span>
+                    </div>
+                    <i id="icon-services" class="fa-solid fa-chevron-down text-sm text-slate-400 transition transform"></i>
+                </button>
+                <div id="content-services" class="hidden p-6 pt-0 border-t border-slate-100 bg-slate-50/50">
+                    <div class="max-w-3xl mx-auto pt-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-start">
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#1E68B8] flex items-center justify-center text-lg shrink-0 mt-1">
+                                    <i class="fa-solid fa-chalkboard-user"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-slate-800 mb-1" data-i18n="serv1Title">تكوين تطبيقي</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="serv1Desc">مع مدربين خريجي OFPPT ذوي كفاءة عالية.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#1E68B8] flex items-center justify-center text-lg shrink-0 mt-1">
+                                    <i class="fa-solid fa-book-open"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-slate-800 mb-1" data-i18n="serv2Title">تكوين نظري</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="serv2Desc">في قانون السير مع مدربين ذوو خبرة ميدانية واسعة.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#1E68B8] flex items-center justify-center text-lg shrink-0 mt-1">
+                                    <i class="fa-solid fa-house-laptop"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-slate-800 mb-1" data-i18n="serv3Title">فضاء تكوين مجهز وعصري</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="serv3Desc">قاعات مجهزة بأحدث الوسائل التعليمية والتقنية.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#1E68B8] flex items-center justify-center text-lg shrink-0 mt-1">
+                                    <i class="fa-solid fa-car-side"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-slate-800 mb-1" data-i18n="serv4Title">سيارات تدريب حديثة</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="serv4Desc">مركبات جديدة كليا ومجهزة باحدث التجهيزات لراحة وسلامة المترشح.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-4 md:col-span-2">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#1E68B8] flex items-center justify-center text-lg shrink-0 mt-1">
+                                    <i class="fa-solid fa-language"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-slate-800 mb-1" data-i18n="serv5Title">تكوين باللغات الثلاث</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed" data-i18n="serv5Desc">عربية، فرنسية، إنجليزية (حسب طلب المترشح).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. شروط التسجيل -->
+            <div class="bg-white rounded-3xl shadow-md border border-slate-200 overflow-hidden transition">
+                <button type="button" onclick="toggleAccordion('conditions')" class="w-full p-6 font-black text-xl text-[#1E68B8] flex justify-between items-center hover:bg-blue-50/50 transition cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-id-card text-amber-500"></i>
+                        <span data-i18n="secConditions">شروط التسجيل</span>
+                    </div>
+                    <i id="icon-conditions" class="fa-solid fa-chevron-down text-sm text-slate-400 transition transform"></i>
+                </button>
+                <div id="content-conditions" class="hidden p-6 pt-0 border-t border-slate-100 bg-slate-50/50">
+                    <div class="max-w-2xl mx-auto pt-6 space-y-4 text-start">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm shrink-0">1</div>
+                            <p class="text-slate-700 font-bold text-sm md:text-base"><span data-i18n="cond1Text">ان يكون سن المترشح</span> <span class="text-[#1E68B8]" data-i18n="cond1Age">18 سنة شمسية او اكثر</span>.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm shrink-0">2</div>
+                            <p class="text-slate-700 font-bold text-sm md:text-base"><span data-i18n="cond2Text">ان يكون قاطن</span> <span class="text-[#1E68B8]" data-i18n="cond2Area">باقليم بنسليمان بصفة عامة</span> <span data-i18n="cond2Note">(العنوان الموجود في البطاقة الوطنية)</span>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. العروض المقترحة -->
+            <div class="bg-white rounded-3xl shadow-md border border-slate-200 overflow-hidden transition">
+                <button type="button" onclick="toggleAccordion('offers')" class="w-full p-6 font-black text-xl text-[#1E68B8] flex justify-between items-center hover:bg-blue-50/50 transition cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-gift text-amber-500"></i>
+                        <span data-i18n="secOffers">العروض المقترحة</span>
+                    </div>
+                    <i id="icon-offers" class="fa-solid fa-chevron-down text-sm text-slate-400 transition transform"></i>
+                </button>
+                <div id="content-offers" class="hidden p-6 pt-0 border-t border-slate-100 bg-slate-50/50">
+                    <div class="max-w-3xl mx-auto pt-6 text-start">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center space-y-2 hover:border-[#1E68B8] transition">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-blue-50 text-[#1E68B8] flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-motorcycle"></i>
+                                </div>
+                                <h4 class="font-black text-slate-800 text-base" data-i18n="offerA">رخصة صنف A</h4>
+                                <p class="text-xs text-slate-500" data-i18n="offerADesc">الدراجة النارية</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center space-y-2 hover:border-[#1E68B8] transition">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-blue-50 text-[#1E68B8] flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-car"></i>
+                                </div>
+                                <h4 class="font-black text-slate-800 text-base" data-i18n="offerB">رخصة صنف B</h4>
+                                <p class="text-xs text-slate-500" data-i18n="offerBDesc">السيارة</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center space-y-2 hover:border-[#1E68B8] transition">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-blue-50 text-[#1E68B8] flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-truck"></i>
+                                </div>
+                                <h4 class="font-black text-slate-800 text-base" data-i18n="offerC">رخصة صنف C</h4>
+                                <p class="text-xs text-slate-500" data-i18n="offerCDesc">الشاحنة</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center space-y-2 hover:border-[#1E68B8] transition">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-blue-50 text-[#1E68B8] flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-bus"></i>
+                                </div>
+                                <h4 class="font-black text-slate-800 text-base" data-i18n="offerD">رخصة صنف D</h4>
+                                <p class="text-xs text-slate-500" data-i18n="offerDDesc">الحافلة</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center space-y-2 hover:border-[#1E68B8] transition">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-blue-50 text-[#1E68B8] flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-trailer"></i>
+                                </div>
+                                <h4 class="font-black text-slate-800 text-base" data-i18n="offerE">رخصة صنف E</h4>
+                                <p class="text-xs text-slate-500" data-i18n="offerEDesc">المقطورات</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center space-y-2 hover:border-[#1E68B8] transition">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-amber-50 text-amber-600 flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                </div>
+                                <h4 class="font-black text-slate-800 text-base" data-i18n="offerExtra">ساعات إضافية</h4>
+                                <p class="text-xs text-slate-500" data-i18n="offerExtraDesc">ساعات سياقة إضافية حسب الطلب</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. المدربين -->
+            <div class="bg-white rounded-3xl shadow-md border border-slate-200 overflow-hidden transition">
+                <button type="button" onclick="toggleAccordion('professors')" class="w-full p-6 font-black text-xl text-[#1E68B8] flex justify-between items-center hover:bg-blue-50/50 transition cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-chalkboard-user text-amber-500"></i>
+                        <span data-i18n="secTrainers">المدربين</span>
+                    </div>
+                    <i id="icon-professors" class="fa-solid fa-chevron-down text-sm text-slate-400 transition transform"></i>
+                </button>
+                <div id="content-professors" class="hidden p-6 pt-0 border-t border-slate-100 bg-slate-50/50">
+                    <div class="max-w-3xl mx-auto pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-start">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                            <div class="w-16 h-16 mx-auto rounded-full bg-blue-100 text-[#1E68B8] flex items-center justify-center text-2xl font-black">
+                                م
+                            </div>
+                            <h4 id="trainer1Name" class="font-black text-slate-800 text-lg">المكي العمراوي</h4>
+                            <p class="text-xs font-bold text-[#1E68B8] bg-blue-50 py-1.5 px-3 rounded-full inline-block" data-i18n="trainer1Role">مدرب لجميع أصناف رخص السياقة منذ 1992</p>
+                            <div>
+                                <a href="tel:0667561459" class="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-2 rounded-xl text-xs w-full shadow transition">
+                                    <span>06.67.56.14.59</span>
+                                    <i class="fa-solid fa-phone text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                            <div class="w-16 h-16 mx-auto rounded-full bg-blue-100 text-[#1E68B8] flex items-center justify-center text-2xl font-black">
+                                ع
+                            </div>
+                            <h4 id="trainer2Name" class="font-black text-slate-800 text-lg">عثمان العمراوي</h4>
+                            <p class="text-xs font-bold text-[#1E68B8] bg-blue-50 py-1.5 px-3 rounded-full inline-block" data-i18n="trainer2Role">مدرب لجميع أصناف رخص السياقة - خريج OFPPT</p>
+                            <div>
+                                <a href="tel:0678317930" class="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-2 rounded-xl text-xs w-full shadow transition">
+                                    <span>06.78.31.79.30</span>
+                                    <i class="fa-solid fa-phone text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. معرض الصور -->
+            <div class="bg-white rounded-3xl shadow-md border border-slate-200 overflow-hidden transition">
+                <button type="button" onclick="toggleAccordion('gallery')" class="w-full p-6 font-black text-xl text-[#1E68B8] flex justify-between items-center hover:bg-blue-50/50 transition cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-images text-amber-500"></i>
+                        <span data-i18n="secGallery">معرض الصور</span>
+                    </div>
+                    <i id="icon-gallery" class="fa-solid fa-chevron-down text-sm text-slate-400 transition transform"></i>
+                </button>
+                <div id="content-gallery" class="hidden p-6 pt-0 border-t border-slate-100 bg-slate-50/50">
+                    <div class="max-w-3xl mx-auto pt-6 text-center">
+                        <p class="text-slate-400 italic text-sm" data-i18n="galleryEmpty">
+                            [معرض الصور فارغ حالياً وجاهز للإضافة]
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. موقعنا وتقييماتنا -->
+            <div class="bg-white rounded-3xl shadow-md border border-slate-200 overflow-hidden transition">
+                <button type="button" onclick="toggleAccordion('map-section')" class="w-full p-6 font-black text-xl text-[#1E68B8] flex justify-between items-center hover:bg-blue-50/50 transition cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-location-dot text-amber-500"></i>
+                        <span data-i18n="secLocation">موقعنا وتقييماتنا</span>
+                    </div>
+                    <i id="icon-map-section" class="fa-solid fa-chevron-down text-sm text-slate-400 transition transform"></i>
+                </button>
+                <div id="content-map-section" class="hidden p-6 pt-0 border-t border-slate-100 bg-slate-50/50">
+                    <div class="max-w-4xl mx-auto pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-start">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+                            <div>
+                                <span class="text-[10px] font-black bg-amber-100 text-amber-800 px-3 py-1 rounded-full" data-i18n="branch1Tag">الفرع الأول</span>
+                                <h4 class="font-black text-slate-800 text-lg mt-2" data-i18n="branch1Title">فرع حي الهناء</h4>
+                                <p class="text-xs text-slate-600 mt-1" data-i18n="branch1Address">78 حي الهناء، بوزنيقة</p>
+                                <div class="flex items-center gap-1 text-amber-500 mt-2 text-sm font-bold">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span data-i18n="branch1Review">4.9 / 5 تقييم العملاء</span>
+                                </div>
+                            </div>
+                            <a href="https://maps.app.goo.gl/nUrqT94j27GoQwgj9?g_st=ic" target="_blank" class="w-full bg-[#1E68B8] hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-center text-xs transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                                <span data-i18n="mapBtnText">فتح الموقع على خرائط جوجل</span>
+                            </a>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+                            <div>
+                                <span class="text-[10px] font-black bg-amber-100 text-amber-800 px-3 py-1 rounded-full" data-i18n="branch2Tag">الفرع الثاني</span>
+                                <h4 class="font-black text-slate-800 text-lg mt-2" data-i18n="branch2Title">فرع حي السلام</h4>
+                                <p class="text-xs text-slate-600 mt-1" data-i18n="branch2Address">90 الطابق الثاني، حي السلام، بوزنيقة</p>
+                                <div class="flex items-center gap-1 text-amber-500 mt-2 text-sm font-bold">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span data-i18n="branch2Review">5.0 / 5 تقييم العملاء</span>
+                                </div>
+                            </div>
+                            <a href="https://maps.app.goo.gl/ZJmtfmXgGX3GE7bx9?g_st=ic" target="_blank" class="w-full bg-[#1E68B8] hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-center text-xs transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                                <span data-i18n="mapBtnText">فتح الموقع على خرائط جوجل</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. طلب التسجيل -->
+            <div class="bg-white rounded-3xl shadow-md border border-slate-200 overflow-hidden transition">
+                <button type="button" onclick="toggleAccordion('register')" class="w-full p-6 font-black text-xl text-amber-600 flex justify-between items-center hover:bg-amber-50/50 transition cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-user-plus text-amber-500"></i>
+                        <span data-i18n="secRegister">طلب التسجيل</span>
+                    </div>
+                    <i id="icon-register" class="fa-solid fa-chevron-down text-sm text-slate-400 transition transform"></i>
+                </button>
+                <div id="content-register" class="hidden p-6 pt-0 border-t border-slate-100 bg-slate-50/50">
+                    <div class="max-w-2xl mx-auto bg-white text-slate-800 p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 mt-6 text-start">
+                        <form id="whatsappForm" onsubmit="sendToWhatsApp(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold mb-1 text-[#1E68B8]" data-i18n="formNameLabel">الاسم الكامل</label>
+                                <input type="text" id="fullName" required class="bg-slate-50 border-2 border-slate-200 rounded-xl px-4 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#1E68B8]" data-i18n-placeholder="formNamePlaceholder" placeholder="أدخل الاسم الكامل">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold mb-1 text-[#1E68B8]" data-i18n="formDobLabel">تاريخ الازدياد</label>
+                                <input type="date" id="birthDate" required class="bg-slate-50 border-2 border-slate-200 rounded-xl px-4 text-xs text-slate-800 focus:outline-none focus:border-[#1E68B8]">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold mb-1 text-[#1E68B8]" data-i18n="formAddressLabel">العنوان</label>
+                                <input type="text" id="address" required class="bg-slate-50 border-2 border-slate-200 rounded-xl px-4 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#1E68B8]" data-i18n-placeholder="formAddressPlaceholder" placeholder="أدخل العنوان الشخصي">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold mb-1 text-[#1E68B8]" data-i18n="formPhoneLabel">رقم الهاتف</label>
+                                <input type="tel" id="phone" required class="bg-slate-50 border-2 border-slate-200 rounded-xl px-4 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#1E68B8]" placeholder="06XXXXXXXX">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold mb-1 text-[#1E68B8]" data-i18n="formOfferLabel">نوع الرخصة / الطلب</label>
+                                <select id="studyLevel" required class="bg-slate-50 border-2 border-slate-200 rounded-xl px-4 text-xs text-slate-800 focus:outline-none focus:border-[#1E68B8]">
+                                    <option value="" disabled selected class="text-slate-400" data-i18n="formOfferDefault">اختر نوع الرخصة</option>
+                                    <option value="رخصة سياقة صنف أ (A)" data-i18n="optA">رخصة سياقة صنف أ (A)</option>
+                                    <option value="رخصة سياقة صنف ب (B)" data-i18n="optB">رخصة سياقة صنف ب (B)</option>
+                                    <option value="رخصة سياقة صنف ج (C)" data-i18n="optC">رخصة سياقة صنف ج (C)</option>
+                                    <option value="رخصة سياقة صنف د (D)" data-i18n="optD">رخصة سياقة صنف د (D)</option>
+                                    <option value="رخصة سياقة صنف ه (E)" data-i18n="optE">رخصة سياقة صنف ه (E)</option>
+                                    <option value="ساعات سياقة إضافية" data-i18n="optExtra">ساعات سياقة إضافية</option>
+                                </select>
+                            </div>
+                            <!-- إضافة خانة رسالة إضافية أو استفسار (غير إجبارية) -->
+                            <div>
+                                <label class="block text-xs font-bold mb-1 text-[#1E68B8]" data-i18n="formExtraMsgLabel">رسالة إضافية أو استفسار (اختياري)</label>
+                                <textarea id="extraMessage" rows="3" class="bg-slate-50 border-2 border-slate-200 rounded-xl p-3 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#1E68B8]" data-i18n-placeholder="formExtraMsgPlaceholder" placeholder="أدخل أي ملاحظة أو استفسار إضافي هنا..."></textarea>
+                            </div>
+                            <div class="flex items-start gap-2 pt-1">
+                                <input type="checkbox" id="consent" required class="mt-1 w-4 h-4 text-[#1E68B8] bg-slate-50 border-slate-300 rounded focus:ring-blue-500 shrink-0">
+                                <label for="consent" class="text-[11px] text-slate-600 leading-relaxed cursor-pointer font-semibold" data-i18n="formConsent">
+                                    أوافق على أن يتم الاتصال بي من طرف مؤسسة المكي
+                                </label>
+                            </div>
+                            <button type="submit" class="w-full bg-[#F4CE52] hover:bg-yellow-400 text-slate-900 font-black py-3.5 rounded-xl shadow transition text-sm flex items-center justify-center gap-2 mt-4 cursor-pointer">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span data-i18n="formSubmitBtn">إرسال الطلب عبر الواتساب</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/212618188683" target="_blank" class="fixed bottom-6 right-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition transform hover:scale-110" aria-label="تواصل عبر الواتساب">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-blue-950 text-slate-300 py-10 px-4 border-t border-blue-900 text-xs">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 text-start">
+            <div class="bg-blue-900/40 p-6 rounded-2xl border border-blue-800/60 space-y-2">
+                <h5 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-location-dot text-[#F4CE52]"></i>
+                    <span data-i18n="footerBranch1Name">مؤسسة تعليم السياقة المكي - فرع حي الهناء</span>
+                </h5>
+                <p class="text-slate-300" data-i18n="footerBranch1Address">78 حي الهناء، بوزنيقة</p>
+                <p class="text-slate-400 text-[11px]">RC : XXXXXXXX</p>
+                <p class="text-slate-400 text-[11px]">IF : XXXXXXXXX</p>
+            </div>
+            <div class="bg-blue-900/40 p-6 rounded-2xl border border-blue-800/60 space-y-2">
+                <h5 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-location-dot text-[#F4CE52]"></i>
+                    <span data-i18n="footerBranch2Name">مؤسسة تعليم السياقة المكي العمراوي - فرع حي السلام</span>
+                </h5>
+                <p class="text-slate-300" data-i18n="footerBranch2Address">90 الطابق الثاني، حي السلام، بوزنيقة</p>
+                <p class="text-slate-400 text-[11px]">RC : XXXXXXXXX</p>
+                <p class="text-slate-400 text-[11px]">IF : XXXXXXXXX</p>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto flex flex-col items-center justify-center space-y-3 mb-8 pt-4 border-t border-blue-900/60">
+            <span class="text-white font-bold text-xs" data-i18n="footerSocialTitle">تابعنا على منصات التواصل الاجتماعي</span>
+            <div class="flex items-center gap-4">
+                <a href="https://www.facebook.com/profile.php?id=61563310474223&mibextid=wwXIfr&mibextid=wwXIfr" target="_blank" class="w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition shadow" aria-label="فيسبوك">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/autoecole.mekki?igsi=cG5iZW1oNXN0bmNt&utm_source=qr" target="_blank" class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 via-pink-600 to-purple-600 hover:opacity-90 text-white flex items-center justify-center transition shadow" aria-label="انستغرام">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto pt-4 border-t border-blue-900/60 text-center text-slate-500">
+            <p data-i18n="footerCopy">© 2026 مؤسسة تعليم السياقة المكي. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- Scripting -->
+    <script>
+        const translations = {
+            ar: {
+                brandTitle: "مؤسسة المكي",
+                brandSubtitle: "تعليم السياقة والسلامة الطرقية",
+                navRegister: "سجل الآن",
+                indexTitle: "فهرس الموقع",
+                menuHome: "الرئيسية",
+                menuAbout: "من نحن؟",
+                menuServices: "خدماتنا",
+                menuConditions: "شروط التسجيل",
+                menuOffers: "العروض المقترحة",
+                menuTrainers: "المدربين",
+                menuGallery: "معرض الصور",
+                menuLocation: "موقعنا وتقييماتنا",
+                menuRegister: "طلب التسجيل",
+                heroBadge: "طريقك الآمن نحو نيل رخصة السياقة",
+                heroTitle: "مؤسسة المكي",
+                heroSubtitle: "لتعليم السياقة والسلامة الطرقية",
+                quotes: [
+                    "القيادة ليست مجرد تحكم في السيارة، بل هي وعي ومسؤولية على الطريق",
+                    "احترام قانون السير يحمي حياتك وحياة الآخرين",
+                    "السياقة الآمنة تبدأ بالالتزام وتستمر بالتركيز",
+                    "السرعة المفرطة طريق قصير نحو المخاطر",
+                    "التأني في الصدارة، والسلامة أولاً وأخيراً"
+                ],
+                secAbout: "من نحن؟",
+                aboutHTML: `
+                    <p>منذ سنة <strong class="text-[#1E68B8]">1992</strong>، يكرّس السيد <strong class="text-[#1E68B8]">المكي العمراوي</strong> خبرته في مجال تعليم وتكوين السائقين بمدينة <strong class="text-[#1E68B8]">بوزنيقة</strong>، واضعًا خبرته المهنية ورؤيته في خدمة كل من يطمح إلى الحصول على رخصة سياقة وفق تكوين جاد ومتكامل.</p>
+                    <p>وفي سنة <strong class="text-[#1E68B8]">2013</strong>، تأسست <strong class="text-[#1E68B8]">مؤسسة تعليم السياقة المكي</strong>، لتصبح امتدادًا لمسيرة مهنية طويلة في مجال التكوين والتأهيل. ومنذ ذلك الحين، تساهم المؤسسة سنويًا في تكوين حوالي <strong class="text-[#1E68B8]">150 سائقًا</strong> في مختلف أصناف رخص السياقة، مع تحقيق <strong class="text-[#1E68B8]">نسب نجاح تتجاوز 90% سنويًا</strong>.</p>
+                    <p>نؤمن في مؤسسة تعليم السياقة المكي بأن الحصول على رخصة السياقة لا يقتصر على اجتياز الامتحان، بل هو مرحلة أساسية لاكتساب المعرفة والمهارات التي تجعل من المتدرب <strong class="text-[#1E68B8]">سائقًا مسؤولًا، واثقًا ومحترمًا لقواعد السلامة الطرقية</strong>. لذلك نحرص على توفير الظروف الملائمة، والوسائل التقنية والتجهيزات الضرورية، إلى جانب التأطير والتكوين الجيد، من أجل تقديم تجربة تعليمية تواكب تطلعات المترشحين.</p>
+                    <p>وبفضل سنوات الخبرة وجودة التكوين والاهتمام المستمر بالمترشحين، أصبحت المؤسسة تحظى <strong class="text-[#1E68B8]">سمعة متميزة وتقييمات عالية في مدينة بوزنيقة</strong>.</p>
+                    <p>اليوم، نواصل مسيرتنا برؤية أكثر طموحًا، من خلال العمل على <strong class="text-[#1E68B8]">تطوير خدماتنا وفتح فروع جديدة</strong>، بهدف توسيع حضور المؤسسة وتقريب خدماتها من الشباب والمترشحين، مع الحفاظ على نفس قيم <strong class="text-[#1E68B8]">الجودة، الاحترافية والثقة</strong> التي رافقتنا منذ البداية.</p>
+                    <div class="pt-4 border-t border-slate-100 text-center">
+                        <p class="font-black text-[#1E68B8] text-sm md:text-base">مؤسسة تعليم السياقة المكي — خبرة تمتد لأكثر من 30 سنة، وتكوين يقودك نحو الطريق بثقة وأمان.</p>
+                    </div>
+                `,
+                secServices: "خدماتنا",
+                serv1Title: "تكوين تطبيقي",
+                serv1Desc: "مع مدربين خريجي OFPPT ذوي كفاءة عالية.",
+                serv2Title: "تكوين نظري",
+                serv2Desc: "في قانون السير مع مدربين ذوو خبرة ميدانية واسعة.",
+                serv3Title: "فضاء تكوين مجهز وعصري",
+                serv3Desc: "قاعات مجهزة بأحدث الوسائل التعليمية والتقنية.",
+                serv4Title: "سيارات تدريب حديثة",
+                serv4Desc: "مركبات جديدة كليا ومجهزة باحدث التجهيزات لراحة وسلامة المترشح.",
+                serv5Title: "تكوين باللغات الثلاث",
+                serv5Desc: "عربية، فرنسية، إنجليزية (حسب طلب المترشح).",
+                secConditions: "شروط التسجيل",
+                cond1Text: "ان يكون سن المترشح",
+                cond1Age: "18 سنة شمسية او اكثر",
+                cond2Text: "ان يكون قاطن",
+                cond2Area: "باقليم بنسليمان بصفة عامة",
+                cond2Note: "(العنوان الموجود في البطاقة الوطنية)",
+                secOffers: "العروض المقترحة",
+                offerA: "رخصة صنف A",
+                offerADesc: "الدراجة النارية",
+                offerB: "رخصة صنف B",
+                offerBDesc: "السيارة",
+                offerC: "رخصة صنف C",
+                offerCDesc: "الشاحنة",
+                offerD: "رخصة صنف D",
+                offerDDesc: "الحافلة",
+                offerE: "رخصة صنف E",
+                offerEDesc: "المقطورات",
+                offerExtra: "ساعات إضافية",
+                offerExtraDesc: "ساعات سياقة إضافية حسب الطلب",
+                secTrainers: "المدربين",
+                trainer1Name: "المكي العمراوي",
+                trainer1Role: "مدرب لجميع أصناف رخص السياقة منذ 1992",
+                trainer2Name: "عثمان العمراوي",
+                trainer2Role: "مدرب لجميع أصناف رخص السياقة - خريج OFPPT",
+                secGallery: "معرض الصور",
+                galleryEmpty: "[معرض الصور فارغ حالياً وجاهز للإضافة]",
+                secLocation: "موقعنا وتقييماتنا",
+                branch1Tag: "الفرع الأول",
+                branch1Title: "فرع حي الهناء",
+                branch1Address: "78 حي الهناء، بوزنيقة",
+                branch1Review: "4.9 / 5 تقييم العملاء",
+                branch2Tag: "الفرع الثاني",
+                branch2Title: "فرع حي السلام",
+                branch2Address: "90 الطابق الثاني، حي السلام، بوزنيقة",
+                branch2Review: "5.0 / 5 تقييم العملاء",
+                mapBtnText: "فتح الموقع على خرائط جوجل",
+                secRegister: "طلب التسجيل",
+                formNameLabel: "الاسم الكامل",
+                formNamePlaceholder: "أدخل الاسم الكامل",
+                formDobLabel: "تاريخ الازدياد",
+                formAddressLabel: "العنوان",
+                formAddressPlaceholder: "أدخل العنوان الشخصي",
+                formPhoneLabel: "رقم الهاتف",
+                formOfferLabel: "نوع الرخصة / الطلب",
+                formOfferDefault: "اختر نوع الرخصة",
+                optA: "رخصة سياقة صنف أ (A)",
+                optB: "رخصة سياقة صنف ب (B)",
+                optC: "رخصة سياقة صنف ج (C)",
+                optD: "رخصة سياقة صنف د (D)",
+                optE: "رخصة سياقة صنف ه (E)",
+                optExtra: "ساعات إضافية",
+                formExtraMsgLabel: "رسالة إضافية أو استفسار (اختياري)",
+                formExtraMsgPlaceholder: "أدخل أي ملاحظة أو استفسار إضافي هنا...",
+                formConsent: "أوافق على أن يتم الاتصال بي من طرف مؤسسة المكي",
+                formSubmitBtn: "إرسال الطلب عبر الواتساب",
+                footerBranch1Name: "مؤسسة تعليم السياقة المكي - فرع حي الهناء",
+                footerBranch1Address: "78 حي الهناء، بوزنيقة",
+                footerBranch2Name: "مؤسسة تعليم السياقة المكي العمراوي - فرع حي السلام",
+                footerBranch2Address: "90 الطابق الثاني، حي السلام، بوزنيقة",
+                footerSocialTitle: "تابعنا على منصات التواصل الاجتماعي",
+                footerCopy: "© 2026 مؤسسة تعليم السياقة المكي. جميع الحقوق محفوظة."
+            },
+            fr: {
+                brandTitle: "Auto école Mekki",
+                brandSubtitle: "Apprentissage & Sécurité routière",
+                navRegister: "S'inscrire",
+                indexTitle: "Index du site",
+                menuHome: "Accueil",
+                menuAbout: "À propos",
+                menuServices: "Nos Services",
+                menuConditions: "Conditions d'inscription",
+                menuOffers: "Nos Offres",
+                menuTrainers: "Moniteurs",
+                menuGallery: "Galerie",
+                menuLocation: "Nos Agences & Avis",
+                menuRegister: "Demande d'inscription",
+                heroBadge: "Votre chemin sûr vers l'obtention du permis de conduire",
+                heroTitle: "Auto école Mekki",
+                heroSubtitle: "Apprentissage de la conduite et Sécurité routière",
+                quotes: [
+                    "La conduite n'est pas seulement le contrôle d'une voiture, c'est une conscience et une responsabilité sur la route",
+                    "Le respect du code de la route protège votre vie et celle des autres",
+                    "La conduite sûre commence par l'engagement et se poursuit par la concentration",
+                    "L'excès de vitesse est un raccourci vers les dangers",
+                    "La prudence est en tête, et la sécurité avant tout et par-dessus tout"
+                ],
+                secAbout: "À propos de nous",
+                aboutHTML: `
+                    <p>Depuis <strong class="text-[#1E68B8]">1992</strong>, M. <strong class="text-[#1E68B8]">Mekki El Amraoui</strong> consacre son expertise à l'enseignement et à la formation des conducteurs dans la ville de <strong class="text-[#1E68B8]">Bouznika</strong>, mettant son expérience professionnelle et sa vision au service de toute personne aspirant à obtenir un permis de conduire grâce à une formation sérieuse et complète.</p>
+                    <p>En <strong class="text-[#1E68B8]">2013</strong>, l'<strong class="text-[#1E68B8]">Auto école Mekki</strong> a été fondée, devenant le prolongement d'une longue carrière professionnelle dans la formation et la qualification. Depuis lors, l'établissement contribue chaque année à la formation d'environ <strong class="text-[#1E68B8]">150 conducteurs</strong> dans différentes catégories de permis de conduire, avec un <strong class="text-[#1E68B8]">taux de réussite supérieur à 90% par an</strong>.</p>
+                    <p>Nous croyons à l'Auto école Mekki que l'obtention du permis de conduire ne se limite pas à réussir l'examen, mais constitue une étape essentielle pour acquérir les connaissances et les compétences qui font du stagiaire <strong class="text-[#1E68B8]">un conducteur responsable, confiant et respectueux des règles de sécurité routière</strong>. C'est pourquoi nous veillons à fournir des conditions appropriées, des moyens techniques et des équipements nécessaires, ainsi qu'un encadrement et une formation de qualité.</p>
+                    <p>Grâce à des années d'expérience, à la qualité de la formation et à l'attention continue portée aux candidats, l'institution jouit d'une <strong class="text-[#1E68B8]">réputation distinguée et d'évaluations élevées dans la ville de Bouznika</strong>.</p>
+                    <p>Aujourd'hui, nous poursuivons notre chemin avec une vision plus ambitieuse, en travaillant à <strong class="text-[#1E68B8]">développer nos services et à ouvrir de nouvelles agences</strong>, afin d'élargir notre présence et de rapprocher nos services des jeunes et des candidats.</p>
+                    <div class="pt-4 border-t border-slate-100 text-center">
+                        <p class="font-black text-[#1E68B8] text-sm md:text-base">Auto école Mekki — Plus de 30 ans d'expérience, une formation qui vous mène sur la route en toute confiance et sécurité.</p>
+                    </div>
+                `,
+                secServices: "Nos Services",
+                serv1Title: "Formation Pratique",
+                serv1Desc: "Avec des moniteurs diplômés de l'OFPPT hautement qualifiés.",
+                serv2Title: "Formation Théorique",
+                serv2Desc: "Du code de la route avec des moniteurs dotés d'une vaste expérience sur le terrain.",
+                serv3Title: "Espace de formation moderne",
+                serv3Desc: "Salles équipées des derniers moyens éducatifs et techniques.",
+                serv4Title: "Véhicules récents",
+                serv4Desc: "Voitures de formation entièrement neuves et équipées des dernières technologies pour le confort et la sécurité.",
+                serv5Title: "Formation trilingue",
+                serv5Desc: "Arabe, français, anglais (selon la demande du candidat).",
+                secConditions: "Conditions d'inscription",
+                cond1Text: "L'âge du candidat doit être de",
+                cond1Age: "18 ans solaires ou plus",
+                cond2Text: "Être résident",
+                cond2Area: "dans la province de Benslimane en général",
+                cond2Note: "(Adresse figurant sur la carte nationale)",
+                secOffers: "Nos Offres",
+                offerA: "Permis A",
+                offerADesc: "Moto",
+                offerB: "Permis B",
+                offerBDesc: "Voiture",
+                offerC: "Permis C",
+                offerCDesc: "Camion",
+                offerD: "Permis D",
+                offerDDesc: "Bus",
+                offerE: "Permis E",
+                offerEDesc: "Remorques",
+                offerExtra: "Heures supplémentaires",
+                offerExtraDesc: "Heures de conduite supplémentaires sur demande",
+                secTrainers: "Moniteurs",
+                trainer1Name: "Mekki El Amraoui",
+                trainer1Role: "Moniteur pour toutes les catégories de permis depuis 1992",
+                trainer2Name: "Othman El Amraoui",
+                trainer2Role: "Moniteur pour toutes les catégories de permis - Diplômé de l'OFPPT",
+                secGallery: "Galerie",
+                galleryEmpty: "[Galerie photos vide actuellement et prête à être ajoutée]",
+                secLocation: "Nos Agences & Avis",
+                branch1Tag: "Première Agence",
+                branch1Title: "Agence Hay El Hana",
+                branch1Address: "78 Hay El Hana, Bouznika",
+                branch1Review: "4.9 / 5 Avis clients",
+                branch2Tag: "Deuxième Agence",
+                branch2Title: "Agence Hay Essalam",
+                branch2Address: "90 2ème étage, Hay Essalam, Bouznika",
+                branch2Review: "5.0 / 5 Avis clients",
+                mapBtnText: "Ouvrir sur Google Maps",
+                secRegister: "Demande d'inscription",
+                formNameLabel: "Nom complet",
+                formNamePlaceholder: "Entrez votre nom complet",
+                formDobLabel: "Date de naissance",
+                formAddressLabel: "Adresse",
+                formAddressPlaceholder: "Entrez votre adresse personnelle",
+                formPhoneLabel: "Numéro de téléphone",
+                formOfferLabel: "Type de permis / Demande",
+                formOfferDefault: "Sélectionnez le type",
+                optA: "Permis de conduire Catégorie A",
+                optB: "Permis de conduire Catégorie B",
+                optC: "Permis de conduire Catégorie C",
+                optD: "Permis de conduire Catégorie D",
+                optE: "Permis de conduire Catégorie E",
+                optExtra: "Heures de conduite supplémentaires",
+                formExtraMsgLabel: "Message supplémentaire ou question (optionnel)",
+                formExtraMsgPlaceholder: "Entrez toute remarque ou question supplémentaire ici...",
+                formConsent: "J'accepte d'être contacté(e) par l'Auto école Mekki",
+                formSubmitBtn: "Envoyer la demande via WhatsApp",
+                footerBranch1Name: "Auto école Mekki - Agence Hay El Hana",
+                footerBranch1Address: "78 Hay El Hana, Bouznika",
+                footerBranch2Name: "Auto école Mekki Amraoui - Agence Hay Essalam",
+                footerBranch2Address: "90 2ème étage, Hay Essalam, Bouznika",
+                footerSocialTitle: "Suivez-nous sur les réseaux sociaux",
+                footerCopy: "© 2026 Auto école Mekki. Tous droits réservés."
+            },
+            en: {
+                brandTitle: "Mekki Driving School",
+                brandSubtitle: "Driving Training & Road Safety",
+                navRegister: "Register Now",
+                indexTitle: "Site Index",
+                menuHome: "Home",
+                menuAbout: "About Us",
+                menuServices: "Our Services",
+                menuConditions: "Registration Terms",
+                menuOffers: "Our Offers",
+                menuTrainers: "Trainers",
+                menuGallery: "Gallery",
+                menuLocation: "Our Location & Reviews",
+                menuRegister: "Registration Request",
+                heroBadge: "Your Safe Path to Obtaining a Driving License",
+                heroTitle: "Mekki Driving School",
+                heroSubtitle: "Driving Training and Road Safety",
+                quotes: [
+                    "Driving is not just controlling a car, it is awareness and responsibility on the road",
+                    "Respecting traffic rules protects your life and the lives of others",
+                    "Safe driving begins with commitment and continues with focus",
+                    "Excessive speed is a short path to dangers",
+                    "Caution comes first, and safety is above all else"
+                ],
+                secAbout: "About Us",
+                aboutHTML: `
+                    <p>Since <strong class="text-[#1E68B8]">1992</strong>, Mr. <strong class="text-[#1E68B8]">Mekki El Amraoui</strong> has dedicated his expertise to driver training and education in the city of <strong class="text-[#1E68B8]">Bouznika</strong>, putting his professional experience and vision at the service of everyone aspiring to obtain a driving license through serious and comprehensive training.</p>
+                    <p>In <strong class="text-[#1E68B8]">2013</strong>, <strong class="text-[#1E68B8]">Mekki Driving School</strong> was established, becoming an extension of a long professional career in training and qualification. Since then, the institution contributes annually to training about <strong class="text-[#1E68B8]">150 drivers</strong> in various driving license categories, achieving <strong class="text-[#1E68B8]">success rates exceeding 90% annually</strong>.</p>
+                    <p>At Mekki Driving School, we believe that obtaining a driving license is not limited to passing the exam, but is an essential stage to acquire knowledge and skills that make the trainee <strong class="text-[#1E68B8]">a responsible, confident driver respectful of road safety rules</strong>. Therefore, we ensure proper conditions, technical tools, and necessary equipment along with good supervision and high-quality training.</p>
+                    <p>Thanks to years of experience, quality training, and continuous care for candidates, the institution enjoys a <strong class="text-[#1E68B8]">distinguished reputation and high ratings in the city of Bouznika</strong>.</p>
+                    <p>Today, we continue our journey with a more ambitious vision, working to <strong class="text-[#1E68B8]">develop our services and open new branches</strong>, aiming to expand our presence and bring our services closer to youth and candidates.</p>
+                    <div class="pt-4 border-t border-slate-100 text-center">
+                        <p class="font-black text-[#1E68B8] text-sm md:text-base">Mekki Driving School — Over 30 years of experience, training that leads you onto the road with confidence and safety.</p>
+                    </div>
+                `,
+                secServices: "Our Services",
+                serv1Title: "Practical Training",
+                serv1Desc: "With highly qualified OFPPT graduate instructors.",
+                serv2Title: "Theoretical Training",
+                serv2Desc: "Traffic rules training with instructors possessing extensive field experience.",
+                serv3Title: "Modern Equipped Facility",
+                serv3Desc: "Classrooms equipped with the latest educational and technical tools.",
+                serv4Title: "Modern Training Vehicles",
+                serv4Desc: "Completely new vehicles equipped with the latest technology for candidate comfort and safety.",
+                serv5Title: "Trilingual Training",
+                serv5Desc: "Arabic, French, English (according to candidate preference).",
+                secConditions: "Registration Terms",
+                cond1Text: "Candidate's age must be",
+                cond1Age: "18 solar years or older",
+                cond2Text: "Must be a resident",
+                cond2Area: "in Benslimane province in general",
+                cond2Note: "(Address listed on the national ID card)",
+                secOffers: "Our Offers",
+                offerA: "Category A",
+                offerADesc: "Motorcycle",
+                offerB: "Category B",
+                offerBDesc: "Car",
+                offerC: "Category C",
+                offerCDesc: "Truck",
+                offerD: "Category D",
+                offerDDesc: "Bus",
+                offerE: "Category E",
+                offerEDesc: "Remorques",
+                offerExtra: "Extra Hours",
+                offerExtraDesc: "Additional driving hours upon request",
+                secTrainers: "Trainers",
+                trainer1Name: "Mekki El Amraoui",
+                trainer1Role: "Instructor for all driving license categories since 1992",
+                trainer2Name: "Othman El Amraoui",
+                trainer2Role: "Instructor for all driving license categories - OFPPT Graduate",
+                secGallery: "Gallery",
+                galleryEmpty: "[Photo gallery currently empty and ready for addition]",
+                secLocation: "Location & Reviews",
+                branch1Tag: "First Branch",
+                branch1Title: "Hay El Hana Branch",
+                branch1Address: "78 Hay El Hana, Bouznika",
+                branch1Review: "4.9 / 5 Customer Rating",
+                branch2Tag: "Second Branch",
+                branch2Title: "Hay Essalam Branch",
+                branch2Address: "90 2nd Floor, Hay Essalam, Bouznika",
+                branch2Review: "5.0 / 5 Customer Rating",
+                mapBtnText: "Open Location on Google Maps",
+                secRegister: "Registration Request",
+                formNameLabel: "Full Name",
+                formNamePlaceholder: "Enter your full name",
+                formDobLabel: "Date of Birth",
+                formAddressLabel: "Address",
+                formAddressPlaceholder: "Enter your personal address",
+                formPhoneLabel: "Phone Number",
+                formOfferLabel: "License Type / Request",
+                formOfferDefault: "Select License Type",
+                optA: "Driving License Class A",
+                optB: "Driving License Class B",
+                optC: "Driving License Class C",
+                optD: "Driving License Class D",
+                optE: "Driving License Class E",
+                optExtra: "Extra Driving Hours",
+                formExtraMsgLabel: "Additional message or inquiry (optional)",
+                formExtraMsgPlaceholder: "Enter any additional note or inquiry here...",
+                formConsent: "I agree to be contacted by Mekki Driving School",
+                formSubmitBtn: "Send Request via WhatsApp",
+                footerBranch1Name: "Mekki Driving School - Hay El Hana Branch",
+                footerBranch1Address: "78 Hay El Hana, Bouznika",
+                footerBranch2Name: "Mekki Amraoui Driving School - Hay Essalam Branch",
+                footerBranch2Address: "90 2nd Floor, Hay Essalam, Bouznika",
+                footerSocialTitle: "Follow us on social media",
+                footerCopy: "© 2026 Mekki Driving School. All rights reserved."
+            }
+        };
+
+        let currentLang = 'ar';
+        let educationalQuotes = translations.ar.quotes;
+
+        const flags = {
+            ar: '🇲🇦',
+            fr: '🇫🇷',
+            en: '🇬🇧'
+        };
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            educationalQuotes = t.quotes;
+
+            const htmlRoot = document.getElementById('htmlRoot');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            if (lang === 'ar') {
+                htmlRoot.setAttribute('dir', 'rtl');
+                htmlRoot.setAttribute('lang', 'ar');
+                dropdownMenu.classList.remove('right-0');
+                dropdownMenu.classList.add('left-0');
+            } else {
+                htmlRoot.setAttribute('dir', 'ltr');
+                htmlRoot.setAttribute('lang', lang);
+                dropdownMenu.classList.remove('left-0');
+                dropdownMenu.classList.add('right-0');
+            }
+
+            document.getElementById('currentFlag').innerText = flags[lang];
+
+            document.getElementById('brandTitle').innerText = t.brandTitle;
+            document.getElementById('brandSubtitle').innerText = t.brandSubtitle;
+            document.getElementById('navRegisterBtn').innerText = t.navRegister;
+            document.getElementById('menuIndexTitle').innerText = t.indexTitle;
+            document.getElementById('heroBadge').innerText = t.heroBadge;
+            document.getElementById('heroTitle').innerText = t.heroTitle;
+            document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
+            document.getElementById('aboutTextContent').innerHTML = t.aboutHTML;
+            document.getElementById('trainer1Name').innerText = t.trainer1Name;
+            document.getElementById('trainer2Name').innerText = t.trainer2Name;
+
+            document.getElementById('fullName').setAttribute('placeholder', t.formNamePlaceholder);
+            document.getElementById('address').setAttribute('placeholder', t.formAddressPlaceholder);
+            document.getElementById('extraMessage').setAttribute('placeholder', t.formExtraMsgPlaceholder);
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    el.innerText = t[key];
+                }
+            });
+        }
+
+        let quoteIndex = 0;
+        const textView = document.getElementById('dynamicTextView');
+
+        function rotateQuotes() {
+            if (textView) {
+                textView.classList.add('fade-out');
+                setTimeout(() => {
+                    quoteIndex = (quoteIndex + 1) % educationalQuotes.length;
+                    textView.innerText = educationalQuotes[quoteIndex];
+                    textView.classList.remove('fade-out');
+                }, 600);
+            }
+        }
+
+        setInterval(rotateQuotes, 5000);
+
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slider-item');
+        let slideInterval = setInterval(autoNextSlide, 5000);
+
+        function showSlide(index) {
+            slides.forEach((slide, idx) => {
+                slide.style.opacity = idx === index ? '1' : '0';
+            });
+        }
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+            showSlide(currentSlideIndex);
+            resetInterval();
+        }
+
+        function prevSlide() {
+            currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+            showSlide(currentSlideIndex);
+            resetInterval();
+        }
+
+        function autoNextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+            showSlide(currentSlideIndex);
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(autoNextSlide, 5000);
+        }
+
+        function toggleMenu(event) {
+            if (event) event.stopPropagation();
+            const menu = document.getElementById('dropdownMenu');
+            const langMenu = document.getElementById('langDropdown');
+            if (langMenu) langMenu.classList.add('hidden');
+            if (menu) {
+                menu.classList.toggle('hidden');
+            }
+        }
+
+        function toggleLangMenu(event) {
+            if (event) event.stopPropagation();
+            const langMenu = document.getElementById('langDropdown');
+            const menu = document.getElementById('dropdownMenu');
+            if (menu) menu.classList.add('hidden');
+            if (langMenu) {
+                langMenu.classList.toggle('hidden');
+            }
+        }
+
+        window.addEventListener('click', function(e) {
+            const menu = document.getElementById('dropdownMenu');
+            const langMenu = document.getElementById('langDropdown');
+            if (menu && !menu.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+            if (langMenu && !langMenu.contains(e.target)) {
+                langMenu.classList.add('hidden');
+            }
+        });
+
+        function toggleAccordion(sectionId) {
+            const content = document.getElementById('content-' + sectionId);
+            const icon = document.getElementById('icon-' + sectionId);
+            
+            document.querySelectorAll('[id^="content-"]').forEach(item => {
+                if (item.id !== 'content-' + sectionId) {
+                    item.classList.add('hidden');
+                }
+            });
+            document.querySelectorAll('[id^="icon-"]').forEach(item => {
+                if (item.id !== 'icon-' + sectionId) {
+                    item.classList.remove('rotate-180');
+                }
+            });
+
+            if (content) {
+                content.classList.toggle('hidden');
+                if (icon) {
+                    icon.classList.toggle('rotate-180');
+                }
+                if (!content.classList.contains('hidden')) {
+                    content.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+            const menu = document.getElementById('dropdownMenu');
+            const langMenu = document.getElementById('langDropdown');
+            if (menu) menu.classList.add('hidden');
+            if (langMenu) langMenu.classList.add('hidden');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function sendToWhatsApp(event) {
+            event.preventDefault();
+
+            const fullName = document.getElementById('fullName').value;
+            const birthDate = document.getElementById('birthDate').value;
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value;
+            const studyLevel = document.getElementById('studyLevel').value;
+            const extraMessage = document.getElementById('extraMessage').value;
+            const consent = document.getElementById('consent').checked;
+
+            if (!consent) {
+                alert(currentLang === 'fr' ? "Veuillez accepter les conditions d'abord." : currentLang === 'en' ? "Please accept the terms first." : "المرجو الموافقة على شروط الاتصال أولاً.");
+                return;
+            }
+
+            let textMessage = "";
+            if (currentLang === 'fr') {
+                textMessage = `Bonjour, je souhaite m'inscrire à l'Auto école Mekki:\n\n` +
+                              `👤 *Nom complet:* ${fullName}\n` +
+                              `📅 *Date de naissance:* ${birthDate}\n` +
+                              `📍 *Adresse:* ${address}\n` +
+                              `📞 *Téléphone:* ${phone}\n` +
+                              `🚗 *Type de permis:* ${studyLevel}\n` +
+                              (extraMessage ? `💬 *Message:* ${extraMessage}\n\n` : `\n`) +
+                              `✅ J'accepte d'être contacté(e).`;
+            } else if (currentLang === 'en') {
+                textMessage = `Hello, I would like to register at Mekki Driving School:\n\n` +
+                              `👤 *Full Name:* ${fullName}\n` +
+                              `📅 *Date of Birth:* ${birthDate}\n` +
+                              `📍 *Address:* ${address}\n` +
+                              `📞 *Phone:* ${phone}\n` +
+                              `🚗 *License Type:* ${studyLevel}\n` +
+                              (extraMessage ? `💬 *Message:* ${extraMessage}\n\n` : `\n`) +
+                              `✅ I agree to be contacted.`;
+            } else {
+                textMessage = `السلام عليكم، أرغب في التسجيل بمؤسسة المكي لتعليم السياقة:\n\n` +
+                              `👤 *الاسم الكامل:* ${fullName}\n` +
+                              `📅 *تاريخ الازدياد:* ${birthDate}\n` +
+                              `📍 *العنوان:* ${address}\n` +
+                              `📞 *رقم الهاتف:* ${phone}\n` +
+                              `🚗 *نوع الرخصة / الطلب:* ${studyLevel}\n` +
+                              (extraMessage ? `💬 *رسالة إضافية:* ${extraMessage}\n\n` : `\n`) +
+                              `✅ أوافق على أن يتم الاتصال بي من طرف مؤسسة المكي.`;
+            }
+
+            const phoneNumber = "212618188683";
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(textMessage)}`;
+
+            window.location.href = whatsappUrl;
+        }
+
+        changeLanguage('ar');
+    </script>
+
+</body>
+</html>
